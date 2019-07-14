@@ -30,10 +30,10 @@ public class task8 {
         chromeDriver.get("http://localhost/litecart/en/");
         waitInChrome.until(titleIs("Online Store | My Store"));
 
-        List<WebElement> ducks = chromeDriver.findElements(By.cssSelector(".link[title$='Duck']"));
-        int size = ducks.size();
+        List<WebElement> items = chromeDriver.findElements(By.cssSelector("li[class^=product]")); //".link[title$='Duck']"));
+        int size = items.size();
         for (int i = 0; i < size; i++) {
-            Assert.assertTrue(ducks.get(i).findElement(By.cssSelector("[class^='sticker']")).isDisplayed());
+            Assert.assertTrue(items.get(i).findElement(By.cssSelector("div[class^='sticker']")).isDisplayed());  //"div.image-wrapper>div"
         }
     }
 
