@@ -33,7 +33,9 @@ public class task8 {
         List<WebElement> items = chromeDriver.findElements(By.cssSelector("li[class^=product]")); //".link[title$='Duck']"));
         int size = items.size();
         for (int i = 0; i < size; i++) {
-            Assert.assertTrue(items.get(i).findElement(By.cssSelector("div[class^='sticker']")).isDisplayed());  //"div.image-wrapper>div"
+            List<WebElement> stickers = items.get(i).findElements(By.cssSelector("div[class^='sticker']"));
+            Assert.assertEquals(stickers.size(), 1);
+            Assert.assertTrue(stickers.get(0).isDisplayed());
         }
     }
 
