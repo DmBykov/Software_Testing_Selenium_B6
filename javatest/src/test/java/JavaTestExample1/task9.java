@@ -53,6 +53,21 @@ public class task9 {
                 countries = chromeDriver.findElements(By.cssSelector("[name='countries_form'] a:not([title='Edit'])"));
             }
         }
+
+        chromeDriver.get("http://localhost/litecart/admin/?app=geo_zones&doc=geo_zones");
+        waitInChrome.until(titleIs("Geo Zones | My Store"));
+        List<WebElement> countriesWithGeozones = chromeDriver.findElements(By.cssSelector(".row a:not([title='Edit']"));
+        for(int l=0; l<countriesWithGeozones.size(); l++) {
+            countriesWithGeozones.get(l).click();
+            waitInChrome.until(titleIs("Edit Geo Zone | My Store"));
+            List<WebElement> zones = chromeDriver.findElements(By.cssSelector("select[name$='[zone_code]']>option[selected]"));
+            List<String> sortedStates = zones.stream().map(p -> p.getText()).sorted().collect(Collectors.toList());
+            List<String> actualStates = zones.stream().map(p -> p.getText()).collect(Collectors.toList());
+            Assert.assertEquals(actualStates, sortedStates);
+            chromeDriver.findElement(By.cssSelector("[name='cancel']")).click();
+            waitInChrome.until(titleIs("Geo Zones | My Store"));
+            countriesWithGeozones = chromeDriver.findElements(By.cssSelector(".row a:not([title='Edit']"));
+        }
     }
 
     @After
