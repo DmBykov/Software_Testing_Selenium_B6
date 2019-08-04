@@ -72,7 +72,7 @@ public class task14 {
 
     private Boolean isExternalPageOpen(WebDriver driver) {
         try {
-            return driver.findElements(By.cssSelector("//*[text()='Log in']")).size() > 0;
+            return driver.findElements(By.xpath("//*[text()='Log in']")).size() > 0;
         } catch (Exception e) {
             return null;
         }
