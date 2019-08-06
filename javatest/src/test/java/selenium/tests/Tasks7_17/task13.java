@@ -1,4 +1,4 @@
-package JavaTestExample1;
+package selenium.tests.Tasks7_17;
 
 import org.junit.After;
 import org.junit.Before;
@@ -6,12 +6,10 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
@@ -42,30 +40,22 @@ public class task13 {
             waitInChrome.until(stalenessOf(chromeDriver.findElement(By.cssSelector("div[style^='background']"))));
         }
         // Remove ducks from the basket
-        int quantity = Integer.parseInt(chromeDriver.findElement(By.cssSelector("span.quantity")).getText());
         chromeDriver.findElement(By.xpath("//*[text()='Checkout »']")).click();
         waitInChrome.until(visibilityOf(chromeDriver.findElement(By.cssSelector(".phone"))));
-        waitInChrome.withTimeout(Duration.ofSeconds(1));
-        for (int j = 0; j < quantity+1; j++) {
-            if(chromeDriver.findElements(By.cssSelector(".item")).size()==0) {
+        int quantity = chromeDriver.findElements(By.cssSelector("td[style$='center;']")).size();
+        for (int j = 0; j < quantity; j++) {
+            if (chromeDriver.findElements(By.cssSelector(".item")).size() == 0) {
                 return;
             } else {
-                WebElement itemToDelete = chromeDriver.findElements(By.cssSelector("ul.items")).get(0);
-                if (itemToDelete.getCssValue("margin-left").equals("0px")) {
+                for (int a = 0; a < quantity; a++) {
                     try {
-                        for(int a=0; a<quantity+1; a++) {
-                            chromeDriver.findElements(By.cssSelector("button[value='Remove']")).get(a).click();
-                        }
+                        chromeDriver.findElements(By.cssSelector("button[value='Remove']")).get(a).click();
+                    } catch (Exception e) {
                     }
-                    catch (Exception e) {}
                 }
-                waitInChrome.until(visibilityOf(chromeDriver.findElement(By.cssSelector("body[style]"))));
+                waitInChrome.until(ExpectedConditions.attributeToBe(By.cssSelector("div#checkout-cart-wrapper"), "style", "opacity: 1;"));
             }
-            quantity = chromeDriver.findElements(By.cssSelector("td[style$='center;']")).size();
         }
-        // Remove last duck from the basket
-        waitInChrome.until(visibilityOf(chromeDriver.findElement(By.cssSelector("body[style]"))));
-        chromeDriver.findElements(By.cssSelector("button[value='Remove']")).get(0).click();
     }
 
     @After

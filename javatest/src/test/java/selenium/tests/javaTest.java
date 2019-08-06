@@ -1,4 +1,4 @@
-package JavaTestExample1;
+package selenium.tests;
 
 import org.junit.After;
 import org.junit.Before;
